@@ -12,7 +12,6 @@ module.exports =
     file = editor.getText()
     regex = /(Given|And|When|Then)(.*)/g
     match = regex.exec(file)
-    console.log match
 
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
     @getCompletions(line, file)
@@ -41,7 +40,6 @@ module.exports =
       return if error?
       @completions = {}
       classes = JSON.parse(content)
-      @loadProperty('atom', 'Atom', classes)
       return
 
   getCompletions: (line, file) ->
@@ -54,22 +52,6 @@ module.exports =
     while (myRegexArray = regex.exec(file)) != null
       results.push({"text":myRegexArray[2].replace /^\s+|\s+$/g, ""})
     return results
-
-  getPropertyClass: (name) ->
-    atom[name]?.constructor?.name
-
-  loadProperty: (propertyName, className, classes, parent) ->
-    classCompletions = classes[className]
-    return unless classCompletions?
-
-    @completions[propertyName] = completions: []
-
-    for completion in classCompletions
-      @completions[propertyName].completions.push(completion)
-      if completion.type is 'property'
-        propertyClass = @getPropertyClass(completion.name)
-        @loadProperty(completion.name, propertyClass, classes)
-    return
 
 clone = (obj) ->
   newObj = {}
