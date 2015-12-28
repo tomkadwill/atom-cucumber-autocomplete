@@ -1,20 +1,18 @@
 fs = require 'fs'
 path = require 'path'
 
-propertyPrefixPattern = /(?:^|\[|\(|,|=|:|\s)\s*(atom\.(?:[a-zA-Z]+\.?){0,2})$/
+propertyPrefixPattern = /(?:^|\[|\(|,|=|:|\s)\s*(And\s(?:[a-zA-Z]+\.?){0,2})$/
 
 module.exports =
   selector: '.source.feature, .feature'
   filterSuggestions: true
 
   getSuggestions: ({bufferPosition, editor}) ->
-    console.log 'getSuggestions'
     # return unless @isEditingAnAtomPackageFile(editor)
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
     @getCompletions(line)
 
   load: ->
-    console.log 'load'
     @loadCompletions()
     atom.project.onDidChangePaths => @scanProjectDirectories()
     @scanProjectDirectories()
@@ -51,7 +49,6 @@ module.exports =
     false
 
   loadCompletions: ->
-    console.log 'loadCompletions'
     @completions ?= {}
 
     fs.readFile path.resolve(__dirname, '..', 'completions.json'), (error, content) =>
@@ -65,15 +62,7 @@ module.exports =
     completions = []
     match =  propertyPrefixPattern.exec(line)?[1]
     return completions unless match
-
-    segments = match.split('.')
-    prefix = segments.pop() ? ''
-    segments = segments.filter (segment) -> segment
-    property = segments[segments.length - 1]
-    propertyCompletions = @completions[property]?.completions ? []
-    for completion in propertyCompletions when not prefix or firstCharsEqual(completion.name, prefix)
-      completions.push(clone(completion))
-    completions
+    [{"name":"clipboard","text":"clipboard","description":"A {Clipboard} instance ","descriptionMoreURL":"https://atom.io/docs/api/latest/Atom#instance-clipboard","leftLabel":"Clipboard","type":"property"},{"name":"commands","text":"commands","description":"A {CommandRegistry} instance ","descriptionMoreURL":"https://atom.io/docs/api/latest/Atom#instance-commands","leftLabel":"CommandRegistry","type":"property"}]
 
   getPropertyClass: (name) ->
     atom[name]?.constructor?.name
