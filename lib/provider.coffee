@@ -10,9 +10,6 @@ module.exports =
   getSuggestions: ({bufferPosition, editor}) ->
     # return unless @isEditingAnAtomPackageFile(editor)
     file = editor.getText()
-    regex = /(Given|And|When|Then)(.*)/g
-    match = regex.exec(file)
-
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
     @getCompletions(line, file)
 
@@ -51,6 +48,13 @@ module.exports =
     regex = /(Given|And|When|Then)(.*)/g
     while (myRegexArray = regex.exec(file)) != null
       results.push({"text":myRegexArray[2].replace /^\s+|\s+$/g, ""})
+
+    for feature in fs.readdirSync("/Users/thomaskadwill/Workspace/babylon/rails/features")
+      continue unless /.feature/.test(feature)
+      data = fs.readFileSync "/Users/thomaskadwill/Workspace/babylon/rails/features/#{feature}", 'utf8'
+      while (myRegexArray2 = regex.exec(data)) != null
+        results.push({"text":myRegexArray2[2].replace /^\s+|\s+$/g, ""})
+
     return results
 
 clone = (obj) ->
