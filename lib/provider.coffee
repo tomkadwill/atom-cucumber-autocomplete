@@ -1,7 +1,7 @@
 fs = require 'fs'
 path = require 'path'
 
-propertyPrefixPattern = /(?:^|\[|\(|,|=|:|\s)\s*(And\s(?:[a-zA-Z]+\.?){0,2})$/
+propertyPrefixPattern = /(?:^|\[|\(|,|=|:|\s)\s*((?:And|Given|Then|When)\s(?:[a-zA-Z]+\.?){0,2})$/
 
 module.exports =
   selector: '.source.feature, .feature'
