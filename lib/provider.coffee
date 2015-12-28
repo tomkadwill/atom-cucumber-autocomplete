@@ -9,11 +9,15 @@ module.exports =
 
   getSuggestions: ({bufferPosition, editor}) ->
     # return unless @isEditingAnAtomPackageFile(editor)
+    file = editor.getText()
+    regex = /(Given|And|When|Then)(.*)/g
+    match = regex.exec(file)
+    console.log match
+
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
-    @getCompletions(line)
+    @getCompletions(line, file)
 
   load: ->
-    @loadCompletions()
     atom.project.onDidChangePaths => @scanProjectDirectories()
     @scanProjectDirectories()
 
@@ -33,9 +37,6 @@ module.exports =
           error = parseError
       callback(error, metadata)
 
-  loadCompletions: ->
-    @completions ?= {}
-
     fs.readFile path.resolve(__dirname, '..', 'completions.json'), (error, content) =>
       return if error?
       @completions = {}
@@ -43,16 +44,16 @@ module.exports =
       @loadProperty('atom', 'Atom', classes)
       return
 
-  getCompletions: (line) ->
+  getCompletions: (line, file) ->
     completions = []
     match =  propertyPrefixPattern.exec(line)?[1]
     return completions unless match
-    [
-      {"text":"I am signed in as a general admin"},
-      {"text":"I should not be able to remove any region"},
-      {"text":"I should be able to remove regions"},
-      {"text":"I am signed in as a Global Admin"}
-    ]
+
+    results = []
+    regex = /(Given|And|When|Then)(.*)/g
+    while (myRegexArray = regex.exec(file)) != null
+      results.push({"text":myRegexArray[2].replace /^\s+|\s+$/g, ""})
+    return results
 
   getPropertyClass: (name) ->
     atom[name]?.constructor?.name
