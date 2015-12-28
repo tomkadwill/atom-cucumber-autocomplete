@@ -23,8 +23,6 @@ module.exports =
       return unless directory?
       @readMetadata directory, (error, metadata) =>
         @packageDirectories.push(directory)
-        # if @isAtomPackage(metadata) or @isAtomCore(metadata)
-          # @packageDirectories.push(directory)
 
   readMetadata: (directory, callback) ->
     fs.readFile path.join(directory.getPath(), 'package.json'), (error, contents) ->
@@ -34,19 +32,6 @@ module.exports =
         catch parseError
           error = parseError
       callback(error, metadata)
-
-  isAtomPackage: (metadata) ->
-    metadata?.engines?.atom?.length > 0
-
-  isAtomCore: (metadata) ->
-    metadata?.name is 'atom'
-
-  isEditingAnAtomPackageFile: (editor) ->
-    editorPath = editor.getPath()
-    return true if editorPath? and (editorPath.endsWith('.atom/init.coffee') or editorPath.endsWith('.atom/init.js'))
-    for directory in @packageDirectories ? []
-      return true if directory.contains(editorPath)
-    false
 
   loadCompletions: ->
     @completions ?= {}
@@ -62,7 +47,12 @@ module.exports =
     completions = []
     match =  propertyPrefixPattern.exec(line)?[1]
     return completions unless match
-    [{"name":"clipboard","text":"clipboard","description":"A {Clipboard} instance ","descriptionMoreURL":"https://atom.io/docs/api/latest/Atom#instance-clipboard","leftLabel":"Clipboard","type":"property"},{"name":"commands","text":"commands","description":"A {CommandRegistry} instance ","descriptionMoreURL":"https://atom.io/docs/api/latest/Atom#instance-commands","leftLabel":"CommandRegistry","type":"property"}]
+    [
+      {"text":"I am signed in as a general admin"},
+      {"text":"I should not be able to remove any region"},
+      {"text":"I should be able to remove regions"},
+      {"text":"I am signed in as a Global Admin"}
+    ]
 
   getPropertyClass: (name) ->
     atom[name]?.constructor?.name
