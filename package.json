@@ -5,7 +5,7 @@
   "description": "Autocompletes based on you defined cucumber steps",
   "keywords": [
   ],
-  "repository": "https://github.com/atom/cucumber-autocomplete",
+  "repository": "https://github.com/tomkadwill/atom-cucumber-autocomplete",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
