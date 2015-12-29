@@ -1,10 +1,9 @@
 {
   "name": "cucumber-autocomplete",
   "main": "./lib/main",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Autocompletes based on you defined cucumber steps",
-  "keywords": [
-  ],
+  "keywords": [],
   "repository": "https://github.com/tomkadwill/atom-cucumber-autocomplete",
   "license": "MIT",
   "engines": {
@@ -21,6 +20,5 @@
     "request": "^2.53.0",
     "temp": "^0.8.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
