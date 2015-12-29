@@ -25,10 +25,13 @@ module.exports =
     while (myRegexArray = regex.exec(file)) != null
       results.push({"text":myRegexArray[2].replace /^\s+|\s+$/g, ""})
 
-    for feature in fs.readdirSync("/Users/thomaskadwill/Workspace/babylon/rails/features")
+    for feature in fs.readdirSync("#{@rootDirectory()}/features")
       continue unless /.feature/.test(feature)
-      data = fs.readFileSync "/Users/thomaskadwill/Workspace/babylon/rails/features/#{feature}", 'utf8'
+      data = fs.readFileSync "#{@rootDirectory()}/features/#{feature}", 'utf8'
       while (myRegexArray2 = regex.exec(data)) != null
         results.push({"text":myRegexArray2[2].replace /^\s+|\s+$/g, ""})
 
     return results
+
+  rootDirectory: ->
+    atom.project.rootDirectories[0].path
