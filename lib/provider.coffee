@@ -7,37 +7,13 @@ module.exports =
   selector: '.source.feature, .feature'
   filterSuggestions: true
 
+  load: ->
+    # Not used
+
   getSuggestions: ({bufferPosition, editor}) ->
-    # return unless @isEditingAnAtomPackageFile(editor)
     file = editor.getText()
     line = editor.getTextInRange([[bufferPosition.row, 0], bufferPosition])
     @getCompletions(line, file)
-
-  load: ->
-    atom.project.onDidChangePaths => @scanProjectDirectories()
-    @scanProjectDirectories()
-
-  scanProjectDirectories: ->
-    @packageDirectories = []
-    atom.project.getDirectories().forEach (directory) =>
-      return unless directory?
-      @readMetadata directory, (error, metadata) =>
-        @packageDirectories.push(directory)
-
-  readMetadata: (directory, callback) ->
-    fs.readFile path.join(directory.getPath(), 'package.json'), (error, contents) ->
-      unless error?
-        try
-          metadata = JSON.parse(contents)
-        catch parseError
-          error = parseError
-      callback(error, metadata)
-
-    fs.readFile path.resolve(__dirname, '..', 'completions.json'), (error, content) =>
-      return if error?
-      @completions = {}
-      classes = JSON.parse(content)
-      return
 
   getCompletions: (line, file) ->
     completions = []
@@ -56,11 +32,3 @@ module.exports =
         results.push({"text":myRegexArray2[2].replace /^\s+|\s+$/g, ""})
 
     return results
-
-clone = (obj) ->
-  newObj = {}
-  newObj[k] = v for k, v of obj
-  newObj
-
-firstCharsEqual = (str1, str2) ->
-  str1[0].toLowerCase() is str2[0].toLowerCase()
