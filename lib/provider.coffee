@@ -1,7 +1,8 @@
 fs = require 'fs'
 path = require 'path'
 
-propertyPrefixPattern = /(?:^|\[|\(|,|=|:|\s)\s*((?:And|Given|Then|When)\s(?:[a-zA-Z]+\.?){0,2})$/
+PROPERTY_PREFIX_PATTERN = /(?:^|\[|\(|,|=|:|\s)\s*((?:And|Given|Then|When)\s(?:[a-zA-Z]+\.?){0,2})$/
+PATH_CONFIG_KEY = 'cucumber-autocomplete.path'
 
 module.exports =
   selector: '.source.feature, .feature'
@@ -17,7 +18,7 @@ module.exports =
 
   getCompletions: (line, file) ->
     completions = []
-    match =  propertyPrefixPattern.exec(line)?[1]
+    match =  PROPERTY_PREFIX_PATTERN.exec(line)?[1]
     return completions unless match
 
     results = []
@@ -25,9 +26,9 @@ module.exports =
     while (myRegexArray = regex.exec(file)) != null
       results.push({"text":myRegexArray[2].replace /^\s+|\s+$/g, ""})
 
-    for feature in fs.readdirSync("#{@rootDirectory()}/features")
+    for feature in fs.readdirSync("#{@rootDirectory()}#{@featuresDirectory()}")
       continue unless /.feature/.test(feature)
-      data = fs.readFileSync "#{@rootDirectory()}/features/#{feature}", 'utf8'
+      data = fs.readFileSync "#{@rootDirectory()}#{@featuresDirectory()}/#{feature}", 'utf8'
       while (myRegexArray2 = regex.exec(data)) != null
         results.push({"text":myRegexArray2[2].replace /^\s+|\s+$/g, ""})
 
@@ -35,3 +36,6 @@ module.exports =
 
   rootDirectory: ->
     atom.project.rootDirectories[0].path
+
+  featuresDirectory: ->
+    atom.config.get(PATH_CONFIG_KEY)
