@@ -37,5 +37,5 @@ module.exports =
   rootDirectory: ->
     atom.project.rootDirectories[0].path
 
-  featuresDirectory: ->
-    atom.config.get(PATH_CONFIG_KEY)
+  featuresDirectory: (path=PATH_CONFIG_KEY) ->
+    atom.config.get(path)
