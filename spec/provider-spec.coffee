@@ -14,7 +14,7 @@ describe "provider model", ->
     it "matches Given keyword", ->
       line = "Given something"
       expect(model.matchCucumberKeyword(line)).toEqual true
-      
+
     it "matches And keyword", ->
       line = "And something"
       expect(model.matchCucumberKeyword(line)).toEqual true
