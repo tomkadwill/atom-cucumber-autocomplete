@@ -17,9 +17,7 @@ module.exports =
     @getCompletions(line, file)
 
   getCompletions: (line, file) ->
-    completions = []
-    match =  PROPERTY_PREFIX_PATTERN.exec(line)?[1]
-    return completions unless match
+    return [] unless @matchCucumberKeyword(line)
 
     results = []
     regex = /(Given|And|When|Then)(.*)/g
@@ -33,6 +31,9 @@ module.exports =
         results.push({"text":myRegexArray2[2].replace /^\s+|\s+$/g, ""})
 
     return results
+
+  matchCucumberKeyword: (line) ->
+    PROPERTY_PREFIX_PATTERN.exec(line)?[1] != null
 
   rootDirectory: ->
     atom.project.rootDirectories[0].path
