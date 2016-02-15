@@ -1,7 +1,7 @@
 {
   "name": "cucumber-autocomplete",
   "main": "./lib/main",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Autocompletes based on you defined cucumber steps",
   "keywords": [],
   "repository": "https://github.com/tomkadwill/atom-cucumber-autocomplete",
