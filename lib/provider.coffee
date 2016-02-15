@@ -3,6 +3,7 @@ path = require 'path'
 
 PROPERTY_PREFIX_PATTERN = /(?:^|\[|\(|,|=|:|\s)\s*((?:And|Given|Then|When)\s(?:[a-zA-Z]+\.?){0,2})$/
 PATH_CONFIG_KEY = 'cucumber-autocomplete.path'
+CUCUMBER_KEYWORDS_PATTERN = /(Given|And|When|Then)(.*)/g
 
 module.exports =
   selector: '.source.feature, .feature'
@@ -20,15 +21,11 @@ module.exports =
     return [] unless @matchCucumberKeyword(line)
 
     results = []
-    regex = /(Given|And|When|Then)(.*)/g
-    while (myRegexArray = regex.exec(file)) != null
-      results.push({"text":myRegexArray[2].replace /^\s+|\s+$/g, ""})
-
     for feature in fs.readdirSync("#{@rootDirectory()}#{@featuresDirectory()}")
       continue unless /.feature/.test(feature)
       data = fs.readFileSync "#{@rootDirectory()}#{@featuresDirectory()}/#{feature}", 'utf8'
-      while (myRegexArray2 = regex.exec(data)) != null
-        results.push({"text":myRegexArray2[2].replace /^\s+|\s+$/g, ""})
+      while (myRegexArray = CUCUMBER_KEYWORDS_PATTERN.exec(data)) != null
+        results.push({"text":myRegexArray[2].replace /^\s+|\s+$/g, ""})
 
     return results
 
