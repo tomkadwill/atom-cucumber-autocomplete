@@ -21,6 +21,10 @@ module.exports =
     return [] unless @matchCucumberKeyword(line)
 
     results = []
+    regex = /(Given|And|When|Then)(.*)/g
+    while (myRegexArray = regex.exec(file)) != null
+      results.push({"text":myRegexArray[2].replace /^\s+|\s+$/g, ""})
+
     for feature in fs.readdirSync("#{@rootDirectory()}#{@featuresDirectory()}")
       continue unless /.feature/.test(feature)
       data = fs.readFileSync "#{@rootDirectory()}#{@featuresDirectory()}/#{feature}", 'utf8'
