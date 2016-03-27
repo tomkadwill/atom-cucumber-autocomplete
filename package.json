@@ -20,5 +20,8 @@
     "request": "^2.53.0",
     "temp": "^0.8.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+   "test": "apm test"
+  }
 }
