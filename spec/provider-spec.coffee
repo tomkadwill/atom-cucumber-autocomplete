@@ -27,6 +27,6 @@ describe "provider model", ->
       line = "Then something"
       expect(model.matchCucumberKeyword(line)).toEqual true
 
-    it "doesn't match if there are no keyworks", ->
+    it "doesn't match if there are no keywords", ->
       line = "I something"
-      expect(model.matchCucumberKeyword(line)).toEqual true
+      expect(model.matchCucumberKeyword(line)).toEqual false
