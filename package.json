@@ -22,6 +22,6 @@
   },
   "dependencies": {},
   "scripts": {
-   "test": "apm test"
+   "test": "npm test"
   }
 }
