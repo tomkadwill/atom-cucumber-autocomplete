@@ -1,5 +1,7 @@
 # Cucumber Autocomplete Atom Package
 
+[![Build Status](https://travis-ci.org/tomkadwill/atom-cucumber-autocomplete.svg?branch=master)](https://travis-ci.org/tomkadwill/atom-cucumber-autocomplete)
+
 Scans your project for existing cucumber steps and provides suggestions as you type.
 
 ![Cucumber Autocomplete Screenshot](https://raw.githubusercontent.com/tomkadwill/atom-cucumber-autocomplete/master/images/cucumber_autocomplete.jpg)
