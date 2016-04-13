@@ -76,7 +76,7 @@ describe("provider model", function() {
       const featureFilePaths = model.searchForPattern(`${rootPath}/spec/features`, /test\.feature/);
       expect(featureFilePaths.length).toEqual(1);
       const matchesExpected = featureFilePaths[0].match(/test\.feature/);
-      expect(!!matchesExpected).toEqual(true);
+      expect(Boolean(matchesExpected)).toEqual(true);
     });
 
     it('should read files from subdirectories', () => {
@@ -84,7 +84,7 @@ describe("provider model", function() {
       const featureFilePaths = model.searchForPattern(`${rootPath}/spec/features`, /childTest\.feature/);
       expect(featureFilePaths.length).toEqual(1);
       const matchesExpected = featureFilePaths[0].match(/childTest\.feature/);
-      expect(!!matchesExpected).toEqual(true);
+      expect(Boolean(matchesExpected)).toEqual(true);
     });
 
     it('should return an empty array if no matches are found', () => {
