@@ -92,5 +92,14 @@ describe("provider model", function() {
       const featureFilePaths = model.searchForPattern(`${rootPath}/spec/features`, /fakeTest\.feature/);
       expect(featureFilePaths.length).toEqual(0);
     });
+
+    describe('step files', () => {
+      it('should pull in lines from step definitions', () => {
+        model.rootDirectory = () => process.cwd();
+        atom.config.set("cucumber-autocomplete.path", `/spec/features`);
+        const stepDefs = model.scanStepDefinitionsDir();
+        stepDefs.forEach( stepDef => expect(stepDef.snippet).toEqual('a sample step file'));
+      });
+    });
   });
 });
