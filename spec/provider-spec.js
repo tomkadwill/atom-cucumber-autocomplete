@@ -69,4 +69,37 @@ describe("provider model", function() {
       expect(model.replacedCucumberRegex(step)).toEqual("${1:textArgument}\" can add text \"${1:textArgument}\" for \"${1:textArgument}\" hours and \"${1:textArgument}\" minutes");
     });
   });
+
+  describe('file reading', () => {
+    it('should read files directly from the directory provided', () => {
+      const rootPath = process.cwd();
+      const featureFilePaths = model.searchForPattern(`${rootPath}/spec/features`, /test\.feature/);
+      expect(featureFilePaths.length).toEqual(1);
+      const matchesExpected = featureFilePaths[0].match(/test\.feature/);
+      expect(Boolean(matchesExpected)).toEqual(true);
+    });
+
+    it('should read files from subdirectories', () => {
+      const rootPath = process.cwd();
+      const featureFilePaths = model.searchForPattern(`${rootPath}/spec/features`, /childTest\.feature/);
+      expect(featureFilePaths.length).toEqual(1);
+      const matchesExpected = featureFilePaths[0].match(/childTest\.feature/);
+      expect(Boolean(matchesExpected)).toEqual(true);
+    });
+
+    it('should return an empty array if no matches are found', () => {
+      const rootPath = process.cwd();
+      const featureFilePaths = model.searchForPattern(`${rootPath}/spec/features`, /fakeTest\.feature/);
+      expect(featureFilePaths.length).toEqual(0);
+    });
+
+    describe('step files', () => {
+      it('should pull in lines from step definitions', () => {
+        model.rootDirectory = () => process.cwd();
+        atom.config.set("cucumber-autocomplete.path", `/spec/features`);
+        const stepDefs = model.scanStepDefinitionsDir();
+        stepDefs.forEach( stepDef => expect(stepDef.snippet).toEqual('a sample step file'));
+      });
+    });
+  });
 });
