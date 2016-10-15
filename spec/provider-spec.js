@@ -42,9 +42,9 @@ describe("provider model", function() {
     });
   });
 
-  describe("featuresDirError", function() {
-    it("raises error with dir path", function() {
-      expect(function(){ model.featureDirError('blah/', 'home'); }).toThrow(new Error("Cannot find features directory at blah/home"));
+  describe("scanFeaturesDir", function() {
+    it("adds a warning when features directory cannot be found", function() {
+      expect(function(){ model.scanFeaturesDir([]) }).not.toThrow();
     })
   });
 
