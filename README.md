@@ -1,6 +1,7 @@
 # Cucumber Autocomplete Atom Package
 
 [![Build Status](https://travis-ci.org/tomkadwill/atom-cucumber-autocomplete.svg?branch=master)](https://travis-ci.org/tomkadwill/atom-cucumber-autocomplete)
+[![apm](https://img.shields.io/apm/dm/cucumber-autocomplete.svg)]()
 
 Scans your project for existing cucumber steps and provides suggestions as you type.
 
