@@ -9,6 +9,13 @@ describe("provider model", function() {
     });
   });
 
+  describe("getSuggestions", function() {
+    it("disables the plugin if project has not been saved", function() {
+      atom.project.rootDirectories[0] = undefined;
+      expect(model.getSuggestions(true, true)).toEqual(false);
+    });
+  });
+
   describe("rootDirectory", function() {
     it("gets the root directory", function() {
       expect(model.rootDirectory()).toEqual(atom.project.rootDirectories[0].path);
